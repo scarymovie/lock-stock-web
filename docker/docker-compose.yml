@@ -11,8 +11,5 @@ services:
       - ../app/:/var/www/html/app
     ports:
       - "5173:5173"
-    command: >
-      sh -c "
-        npm install &&
-        npm run dev
-      "
+    command: npm run dev
+
