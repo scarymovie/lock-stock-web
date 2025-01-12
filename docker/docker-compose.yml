@@ -1,14 +1,18 @@
 name: lock-stock-web
 
 version: "3.4"
+
 services:
   lock-stock-web:
     container_name: lock-stock-web
     image: node:lts
-    working_dir: /var/www/html/app/
-    entrypoint: /bin/bash
-    expose:
-      - 8000
+    working_dir: /var/www/html/app
     volumes:
       - ../app/:/var/www/html/app
-    tty: true
+    ports:
+      - "5173:5173"
+    command: >
+      sh -c "
+        npm install &&
+        npm run dev
+      "
