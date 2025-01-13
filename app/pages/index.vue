@@ -13,8 +13,14 @@
 </template>
 
 <script setup lang="ts">
+
 import { ref, onMounted } from 'vue'
 import { fetchRoomsAPI } from '@/utils/api'
+import { definePageMeta } from '#imports'
+
+definePageMeta({
+  middleware: ['auth']
+})
 
 const rooms = ref<{ roomUid: string }[] | null>(null)
 const error = ref<string | null>(null)
