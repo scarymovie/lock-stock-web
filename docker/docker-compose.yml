@@ -1,13 +1,15 @@
+version: "3.8"
+
 name: lock-stock-web
 
 services:
-  lock-stock-web:
-    container_name: lock-stock-web
-    image: node:lts
-    working_dir: /var/www/html/app
+  nuxt:
+    container_name: lock-stock-nuxt
+    build:
+      context: ../app
+      dockerfile: ../docker/images/node/Dockerfile
     volumes:
-      - ../app/:/var/www/html/app
+      - ../app:/app
     ports:
-      - "5173:8000"
-    command: npm run dev
-
+      - "3000:3000"
+    tty: true
