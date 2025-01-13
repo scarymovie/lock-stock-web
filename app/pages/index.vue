@@ -13,15 +13,19 @@
 </template>
 
 <script setup lang="ts">
+import { ref, onMounted } from 'vue'
 import { fetchRoomsAPI } from '@/utils/api'
 
-definePageMeta({
-  middleware: ['auth']
+const rooms = ref<{ roomUid: string }[] | null>(null)
+const error = ref<string | null>(null)
+
+onMounted(async () => {
+  try {
+    console.log('Выполняем запрос на клиенте')
+    rooms.value = await fetchRoomsAPI()
+  } catch (err) {
+    console.error('Ошибка при загрузке комнат:', err)
+    error.value = 'Не удалось загрузить комнаты'
+  }
 })
-
-const { data: rooms, error } = await useAsyncData<string[]>('room-list', fetchRoomsAPI)
-
-if (error.value) {
-  console.error('Ошибка при загрузке комнат:', error.value)
-}
 </script>

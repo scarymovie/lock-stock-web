@@ -2,12 +2,11 @@ import { useCookie, useRuntimeConfig } from '#app'
 
 const apiFetch = async <T>(url: string, options: any = {}): Promise<T> => {
     const config = useRuntimeConfig()
-    const token = useCookie('Authorization').value
+    const token = useCookie('Authorization').value?.trim()
 
     const headers = {
         ...options.headers,
-        Authorization: ` ${token}`,
-        'User-Agent': 'Nuxt HTTP Client',
+        Authorization: token
     }
 
     return $fetch<T>(url, {
@@ -27,16 +26,21 @@ export async function createUserAPI(): Promise<{ user_id: string }> {
 
 
 export async function fetchRoomsAPI(): Promise<{ roomUid: string }[]> {
-    const token = useCookie('Authorization').value
 
-    return apiFetch<{ roomUid: string }[]>('/room/list', {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-            Authorization: token,
-        },
-        body: undefined,
-    })
+    try {
+        const response = await apiFetch<{ roomUid: string }[]>('/room/list', {
+            method: 'POST',
+            credentials: 'include',
+            body: undefined,
+        })
+
+        console.log('Ответ от API:', response)
+        return response
+    } catch (error) {
+        console.error('Ошибка при запросе к API:', error)
+        throw error
+    }
 }
+
 
 
