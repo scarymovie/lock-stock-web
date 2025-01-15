@@ -35,3 +35,9 @@
 .menu li a:hover {
     color: #00ff00;
 }
+
+.user-name {
+    margin-left: auto;
+    font-weight: bold;
+    color: #00ff00;
+}

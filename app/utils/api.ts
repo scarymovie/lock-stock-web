@@ -17,10 +17,14 @@ const apiFetch = async <T>(url: string, options: any = {}): Promise<T> => {
 }
 
 
-export async function createUserAPI(): Promise<{ user_id: string }> {
+export async function createUserAPI(name: string): Promise<{ user_id: string }> {
     return apiFetch<{ user_id: string }>('/user/create', {
         method: 'POST',
         credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name }),
     })
 }
 
