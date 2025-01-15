@@ -1,0 +1,15 @@
+body, h1, h2, h3, p, ul, li, a {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: radial-gradient(circle, #006400, #003300);
+    color: white;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}

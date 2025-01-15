@@ -42,5 +42,20 @@ export async function fetchRoomsAPI(): Promise<{ roomUid: string }[]> {
     }
 }
 
+export async function joinRoomAPI(roomId: string): Promise<void> {
+    const token = useCookie('Authorization').value
 
+    if (!token) {
+        throw new Error('Authorization token is missing.')
+    }
 
+    console.log('Запрос подключения к комнате:', roomId)
+
+    await apiFetch(`/room/join/${roomId}`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+            Authorization: token,
+        },
+    })
+}

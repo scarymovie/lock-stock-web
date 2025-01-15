@@ -7,6 +7,7 @@
 </template>
 
 <script setup lang="ts">
+import '@/assets/styles/pages/join.css'
 import { ref } from 'vue'
 import { useCookie } from '#app'
 import { createUserAPI } from '@/utils/api'
