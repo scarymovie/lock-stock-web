@@ -47,8 +47,7 @@ async function joinRoom(roomUid: string) {
   try {
     console.log(`Попытка подключения к комнате ${roomUid}`)
     await joinRoomAPI(roomUid)
-    alert(`Вы успешно подключились к комнате: ${roomUid}`)
-    await router.push('/room')
+    await router.push({ path: '/room', query: { roomUid } })
   } catch (err) {
     console.error(`Ошибка при подключении к комнате ${roomUid}:`, err)
     alert(`Не удалось подключиться к комнате: ${roomUid}`)
