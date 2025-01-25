@@ -15,12 +15,13 @@ definePageMeta({
   middleware: ['auth']
 })
 
-const rooms = ref([])
+const rooms = ref<{ roomUid: string }[]>([])
 const router = useRouter()
 
 
 onMounted(async () => {
-  rooms.value = await fetchRoomsAPI()
+  const data = await fetchRoomsAPI()
+  rooms.value = data.map(room => ({ roomUid: room.roomUid }))
 })
 
 async function joinRoom(roomUid: string) {
