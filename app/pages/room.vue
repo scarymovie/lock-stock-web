@@ -19,14 +19,39 @@
 <script setup lang="ts">
 import '@/assets/styles/pages/room.css'
 import { useRoute } from 'vue-router'
+import { useRouter } from 'vue-router'
 import { useCookie } from '#app'
 import { useWebSocket } from '@/composables/useWebSocket'
+import { onMounted, onUnmounted } from 'vue'
 
 definePageMeta({
   middleware: ['auth']
 })
 
 const route = useRoute()
+const router = useRouter()
+
+onMounted(() => {
+  window.addEventListener('beforeunload', clearLocalStorage)
+
+  router.beforeEach((to, from, next) => {
+    if (from.path === '/room') {
+      console.log('Покидаем страницу комнаты. Очищаем localStorage.')
+      clearLocalStorage()
+    }
+    next()
+  })
+})
+
+onUnmounted(() => {
+  window.removeEventListener('beforeunload', clearLocalStorage)
+})
+
+function clearLocalStorage() {
+  console.log('Очищаем localStorage.')
+  localStorage.removeItem('initialUsers')
+}
+
 const roomUid = route.query.roomUid as string || null
 
 let initialUsers = []
