@@ -1,7 +1,7 @@
 <template>
   <div class="room-page">
     <h1>Добро пожаловать в комнату {{ roomUid }}</h1>
-    <p>Подключение...</p>
+    <p>Подключено участников: {{ connectedUsers.length }}</p>
 
     <div class="user-container">
       <div
@@ -28,7 +28,20 @@ definePageMeta({
 
 const route = useRoute()
 const roomUid = route.query.roomUid as string || null
-const userId = useCookie('Authorization')?.value || null
 
-const { connectedUsers } = useWebSocket(roomUid, userId)
+let initialUsers = []
+const rawUsers = localStorage.getItem('initialUsers')
+
+if (rawUsers) {
+  try {
+    initialUsers = JSON.parse(rawUsers)
+    console.log('Участники из localStorage:', initialUsers)
+  } catch (error) {
+    console.error('Ошибка парсинга данных из localStorage:', error)
+  }
+} else {
+  console.warn('initialUsers отсутствует в localStorage.')
+}
+const userId = useCookie('Authorization')?.value || null
+const { connectedUsers } = useWebSocket(roomUid, userId, initialUsers)
 </script>

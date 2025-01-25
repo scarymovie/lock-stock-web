@@ -46,11 +46,23 @@ onMounted(async () => {
 async function joinRoom(roomUid: string) {
   try {
     console.log(`Попытка подключения к комнате ${roomUid}`)
-    await joinRoomAPI(roomUid)
-    await router.push({ path: '/room', query: { roomUid } })
+
+    const response = await joinRoomAPI(roomUid)
+
+    if (response) {
+      localStorage.setItem('initialUsers', JSON.stringify(response))
+      console.log('Данные сохранены в localStorage:', response)
+    } else {
+      console.warn('Ответ от API пустой, данные не сохранены.')
+    }
+
+    await router.push({
+      path: '/room',
+      query: { roomUid },
+    })
   } catch (err) {
-    console.error(`Ошибка при подключении к комнате ${roomUid}:`, err)
-    alert(`Не удалось подключиться к комнате: ${roomUid}`)
+    console.error('Ошибка при подключении к комнате:', err)
+    alert('Не удалось подключиться к комнате. Попробуйте снова.')
   }
 }
 </script>

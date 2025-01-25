@@ -1,4 +1,4 @@
-import { useCookie, useRuntimeConfig } from '#app'
+import {useCookie, useRuntimeConfig} from '#app'
 
 const apiFetch = async <T>(url: string, options: any = {}): Promise<T> => {
     const config = useRuntimeConfig()
@@ -24,7 +24,7 @@ export async function createUserAPI(name: string): Promise<{ user_id: string }> 
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ name }),
+        body: JSON.stringify({name}),
     })
 }
 
@@ -46,7 +46,7 @@ export async function fetchRoomsAPI(): Promise<{ roomUid: string }[]> {
     }
 }
 
-export async function joinRoomAPI(roomId: string): Promise<void> {
+export async function joinRoomAPI(roomId: string): Promise<{ roomUid: string; user_id: string; user_name: string }[]> {
     const token = useCookie('Authorization').value
 
     if (!token) {
@@ -55,11 +55,14 @@ export async function joinRoomAPI(roomId: string): Promise<void> {
 
     console.log('Запрос подключения к комнате:', roomId)
 
-    await apiFetch(`/room/join/${roomId}`, {
+    const response = await apiFetch(`/room/join/${roomId}`, {
         method: 'POST',
         credentials: 'include',
         headers: {
             Authorization: token,
         },
-    })
+    }) as { roomUid: string; user_id: string; user_name: string }[]
+
+    console.log('Ответ от API:', response)
+    return response
 }
