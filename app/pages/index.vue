@@ -11,8 +11,13 @@ import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { fetchRoomsAPI, joinRoomAPI } from '@/utils/api'
 
+definePageMeta({
+  middleware: ['auth']
+})
+
 const rooms = ref([])
 const router = useRouter()
+
 
 onMounted(async () => {
   rooms.value = await fetchRoomsAPI()

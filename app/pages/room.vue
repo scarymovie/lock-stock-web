@@ -18,6 +18,10 @@ import UserAvatar from '@/components/UserAvatar.vue'
 import { useRoute } from 'vue-router'
 import { useWebSocket } from '@/composables/useWebSocket'
 
+definePageMeta({
+  middleware: ['auth']
+})
+
 const route = useRoute()
 const roomUid = route.query.roomUid as string || null
 const initialUsers = JSON.parse(localStorage.getItem('initialUsers') || '[]')
