@@ -36,9 +36,19 @@ definePageMeta({
 const route = useRoute()
 const roomUid = route.query.roomUid as string || null
 const initialUsers = JSON.parse(localStorage.getItem('initialUsers') || '[]')
-const { connectedUsers, socket } = useWebSocket(roomUid, null, initialUsers)
 
 const gameStarted = ref(false)
+
+const { connectedUsers, socket } = useWebSocket(
+    roomUid,
+    null,
+    initialUsers,
+    () => {
+      console.log('Callback: игра началась')
+      gameStarted.value = true
+    }
+)
+
 
 async function startGame() {
   try {
@@ -50,17 +60,6 @@ async function startGame() {
     console.log('Запрос на старт игры успешно выполнен')
   } catch (error) {
     console.error('Ошибка при старте игры:', error)
-  }
-}
-
-if (socket.value) {
-  socket.value.onmessage = (event) => {
-    const data = JSON.parse(event.data)
-    console.log('Событие WebSocket:', data)
-    if (data.event === 'game_started') {
-      console.log('Игра началась!')
-      gameStarted.value = true
-    }
   }
 }
 </script>

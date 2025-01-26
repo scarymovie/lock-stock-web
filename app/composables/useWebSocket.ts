@@ -1,6 +1,6 @@
-import { ref, onMounted, onUnmounted } from 'vue'
+import {ref, onMounted, onUnmounted} from 'vue'
 
-export function useWebSocket(roomUid: string | null, userId: string | null, initialUsers: any[] = []) {
+export function useWebSocket(roomUid: string | null, userId: string | null, initialUsers: any[] = [], onGameStarted?: () => void) {
     const connectedUsers = ref<{ user_id: string; user_name: string }[]>(initialUsers || [])
     const socket = ref<WebSocket | null>(null)
     let reconnectTimeout: NodeJS.Timeout | null = null
@@ -8,7 +8,7 @@ export function useWebSocket(roomUid: string | null, userId: string | null, init
     const eventHandlers: Record<string, (data: any) => void> = {
         user_joined: (data) => {
             if (data.user_id !== userId) {
-                connectedUsers.value.push({ user_id: data.user_id, user_name: data.user_name })
+                connectedUsers.value.push({user_id: data.user_id, user_name: data.user_name})
                 console.log(`Пользователь ${data.user_name} присоединился.`)
             }
         },
@@ -18,6 +18,9 @@ export function useWebSocket(roomUid: string | null, userId: string | null, init
         },
         game_started: () => {
             console.log('Игра началась!')
+            if (onGameStarted) {
+                onGameStarted()
+            }
         },
     }
 
@@ -87,5 +90,5 @@ export function useWebSocket(roomUid: string | null, userId: string | null, init
         if (reconnectTimeout) clearTimeout(reconnectTimeout)
     })
 
-    return { connectedUsers, socket }
+    return {connectedUsers, socket}
 }
