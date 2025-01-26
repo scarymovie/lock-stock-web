@@ -10,6 +10,11 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
 }
 
+.welcome-block {
+    text-align: center;
+    height: 300px;
+}
+
 .room-page h1 {
     font-size: 2rem;
     color: #ff0000;
@@ -60,4 +65,28 @@
     color: white;
     word-break: break-word;
     text-align: center;
+}
+
+.start-btn {
+    display: inline-block;
+    margin-top: 45px;
+    width: 150px;
+    height: 150px;
+    background-color: #00ff00;
+    color: black;
+    font-size: 1.5rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.3s, background-color 0.3s;
+}
+
+.start-btn:hover {
+    background-color: #00cc00;
+    transform: scale(1.2);
+}
+
+.start-btn:active {
+    background-color: #009900;
 }

@@ -66,3 +66,20 @@ export async function joinRoomAPI(roomId: string): Promise<{ roomUid: string; us
     console.log('Ответ от API:', response)
     return response
 }
+
+export async function startGameAPI(roomId: string): Promise<void> {
+    const token = useCookie('Authorization').value
+
+    if (!token) {
+        throw new Error('Authorization token is missing.')
+    }
+
+    const response = await apiFetch(`/room/start/${roomId}`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+            Authorization: token,
+        },
+    })
+    console.log('Ответ от API:', response)
+}

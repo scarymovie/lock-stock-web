@@ -11,5 +11,8 @@ export default defineNuxtConfig({
   css: [
     '@/assets/styles/base.css',
     '@/assets/styles/variables.css',
+    '@/assets/styles/header.css',
+    '@/assets/styles/footer.css',
+    '@/assets/styles/footer.css',
   ],
 })
