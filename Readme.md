@@ -30,3 +30,7 @@ Lock-Stock UI — это интерфейс в покерной тематике
 - **Docker:** Для контейнеризации.
 
 ---
+
+## Initialization
+
+root: docker compose -f docker/docker-compose.yml up -d
